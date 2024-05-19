@@ -1,19 +1,15 @@
-import express from 'express';
+const express = require('express');
+const bodyParser = require('body-parser');
 
-import userRouter from './resources/users/user.router.js';
+const abiturientRouter = require('./routes/abiturient.router');
+const examRouter = require('./routes/exam.router');
+const teacherRouter = require('./routes/teacher.router');
 
 const app = express();
+app.use(bodyParser.json());
 
-app.use(express.json());
+app.use('/abiturients', abiturientRouter);
+app.use('/exams', examRouter);
+app.use('/teachers', teacherRouter);
 
-app.use('/', (req, res, next) => {
-  if (req.originalUrl === '/') {
-    res.send('Service is running!');
-    return;
-  }
-  next();
-});
-
-app.use('/users', userRouter);
-
-export default app;
+module.exports = app;
